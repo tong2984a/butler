@@ -1,9 +1,9 @@
 #!/bin/bash
-mkdir ~/work
-cd ~/work
 mkdir ~/.cache/vosk
 curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/vosk-model-small-en-us-0.15.zip
 unzip vosk-model-small-en-us-0.15.zip
+mkdir ~/work
+cd ~/work
 sudo apt -y update
 sudo apt -y install libasound2-dev
 sudo apt -y install portaudio19-dev
