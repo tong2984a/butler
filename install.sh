@@ -20,7 +20,11 @@ pip3 install opencv-python
 pip3 install ffpyplayer
 pip3 install ffmpeg-python
 pip3 install pydub
-curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/test_halloween.mp4 
+curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/test_halloween.mp4
+curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/status_error_missing_photo.mp3
+curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/status_error_unknown.mp3
+curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/status_pending.mp3
+curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/status_ready.mp3
 curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/butler_client.py
 curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/butler_vosk.py
 cd ~/Desktop
