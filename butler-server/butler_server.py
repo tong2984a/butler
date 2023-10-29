@@ -163,7 +163,6 @@ def photo_transcription():
 @app.route("/video")
 def video():
     filename = request.get_data().decode('UTF-8')
-    filename = "larry_intro.mp4"
     filesize = os.path.getsize(filename)
     range_header = request.headers.get('Range', None)
 
