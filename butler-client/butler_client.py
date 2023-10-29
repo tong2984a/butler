@@ -1,18 +1,19 @@
-# import logging
-# import cv2
-# import numpy as np
-# import time
+import logging
+import cv2
+import numpy as np
+import time
 from pydub import AudioSegment
 from pydub.playback import play
 import requests
-# import sounddevice as sd
-# import soundfile as sf
-# import simpleaudio
-# import butler_vosk
+import sounddevice as sd
+import soundfile as sf
+import simpleaudio
+import butler_vosk
 import os
 import pathlib
 import subprocess
 import ffmpeg
+from ffpyplayer.player import MediaPlayer
 
 TEMP_FILE = "output.mp4"
 BASE_DOMAIN = "http://3046.jumpingcrab.com:5000"
@@ -24,7 +25,7 @@ ENDPOINTS = {
     "photo_transcription": "/photo_transcription",
     "photo_transcription_status": "/photo_transcription_status"
 }
-PHOTOS_FOLDER = pathlib.Path("/media/butler/BACKUP/media/photos")
+PHOTOS_FOLDER = pathlib.Path("/media/butler/BLANK/media/photos")
 PHOTOS_TMP_FOLDER = PHOTOS_FOLDER.joinpath("tmp").resolve()
 PHOTOS_TRANSCRIPTION_FOLDER = PHOTOS_FOLDER.joinpath("transcription").resolve()
 
@@ -33,7 +34,8 @@ def get_url(endpoint):
   return BASE_DOMAIN + ENDPOINTS[endpoint]
 
 def narrativePhoto(imageFile, audioFile, outputFile):
-    cmd = "ffmpeg -loop 1 -i % s -i % s -c:v libx264 -c:a copy -shortest % s" % (imageFile, audioFile, outputFile)
+    print("narra")
+    cmd = "ffmpeg -loop 1 -i % s -i % s -vf 'pad=ceil(iw/2)*2:ceil(ih/2)*2' -c:v libx264 -c:a copy -shortest % s" % (imageFile, audioFile, outputFile)
     subprocess.call(cmd, shell=True)
 
 def saveVideo(videoFile, outputFile):
@@ -114,9 +116,9 @@ def search_for_tmp_files(tmp_folder, photos_folder, transcription_folder):
   # If all files are processed, return None.
   return None
 
-inp = "photo_transcription_status"
+#inp = "photo_transcription_status"
 #inp = "transcribe_photo"
-#inp = "photo_transcription"
+inp = "photo_transcription"
 # inp = "restaurant photo"
 #inp = "ask brian"
 while True:
@@ -168,6 +170,7 @@ while True:
             narrativePhoto(photo_file, mp3_file, video_file)
             tmp_file = os.path.join(PHOTOS_TMP_FOLDER, filename.replace(".jpg", ".tmp"))
             os.remove(tmp_file)
+            ffmpegVideo(video_file)
         else:
             # The request failed
             print("The request failed with status code {}".format(r.status_code))
@@ -177,10 +180,16 @@ while True:
         photo_file = os.path.join(PHOTOS_FOLDER, filename)
         if filename is None:
             print("All photos are transcribed successfully.")
+            audio = AudioSegment.from_mp3('all_photos_are_transcribed.mp3')
+            play(audio)
         elif os.path.isfile(photo_file):
+            audio = AudioSegment.from_mp3('transcribing.mp3')
+            play(audio)
             upload_file = open(photo_file, "rb")
             r = requests.post(get_url("transcribe_photo"), files = {"photo file": upload_file})
             print(r.text)
+            audio = AudioSegment.from_mp3('finish_transcription.mp3')
+            play(audio)
         break
     if all([x in inp for x in ['photo', 'restaurant']]):
         saveVideo("larry_01.mp4", TEMP_FILE)
