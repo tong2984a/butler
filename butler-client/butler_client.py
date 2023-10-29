@@ -14,16 +14,30 @@ import pathlib
 import subprocess
 import ffmpeg
 
+TEMP_FILE = "output.mp4"
+BASE_DOMAIN = "http://3046.jumpingcrab.com:5000"
+# Define the specific endpoints.
+ENDPOINTS = {
+    "video": "/video",
+    "ask_llm": "ask_llm",
+    "transcribe_photo": "/transcribe_photo",
+    "photo_transcription": "/photo_transcription",
+    "photo_transcription_status": "/photo_transcription_status"
+}
+PHOTOS_FOLDER = pathlib.Path("/media/butler/BACKUP/media/photos")
+PHOTOS_TMP_FOLDER = PHOTOS_FOLDER.joinpath("tmp").resolve()
+PHOTOS_TRANSCRIPTION_FOLDER = PHOTOS_FOLDER.joinpath("transcription").resolve()
+
+# Concatenate the base domain and the specific endpoints.
+def get_url(endpoint):
+  return BASE_DOMAIN + ENDPOINTS[endpoint]
+
 def narrativePhoto(imageFile, audioFile, outputFile):
-    print(imageFile)
-    print(audioFile)
-    print(outputFile)
     cmd = "ffmpeg -loop 1 -i % s -i % s -c:v libx264 -c:a copy -shortest % s" % (imageFile, audioFile, outputFile)
     subprocess.call(cmd, shell=True)
 
 def saveVideo(videoFile, outputFile):
-    url = f'http://3046.jumpingcrab.com:5000/video'
-    response = requests.get(url, data=videoFile)
+    response = requests.get(get_url("video"), data=videoFile)
     if response.status_code == 200:
         with open(outputFile, 'wb') as f:
             f.write(response.content)
@@ -55,9 +69,8 @@ def ffmpegVideo(file):
     cv2.destroyAllWindows()
 
 def ask_llm(prompt):
-    url = 'http://3046.jumpingcrab.com:5000/ask_llm'
     data = f'Please answer in one short paragraph. {prompt}'
-    response = requests.get(url, data=data, headers={'Content-Type': 'text/plain'})
+    response = requests.get(get_url("ask_llm"), data=data, headers={'Content-Type': 'text/plain'})
 
     sample_rate = 8000
     num_channels = 2
@@ -106,10 +119,6 @@ inp = "photo_transcription_status"
 #inp = "photo_transcription"
 # inp = "restaurant photo"
 #inp = "ask brian"
-tempFile = "output.mp4"
-PHOTOS_FOLDER = pathlib.Path("/media/butler/BACKUP/media/photos")
-PHOTOS_TMP_FOLDER = pathlib.Path("/media/butler/BACKUP/media/photos/tmp")
-PHOTOS_TRANSCRIPTION_FOLDER = pathlib.Path("/media/butler/BACKUP/media/photos/transcription")
 while True:
     # inp = butler_vosk.listen()
     inp = inp.lower()
@@ -120,10 +129,9 @@ while True:
     if inp == 'quit.':
         break
     if inp == 'photo_transcription_status':
-        url = "http://3046.jumpingcrab.com:5000/photo_transcription_status"
         filename = search_for_tmp_files(PHOTOS_TMP_FOLDER, PHOTOS_FOLDER, PHOTOS_TRANSCRIPTION_FOLDER)
         print(f'filename: {filename}')
-        r = requests.get(url, params={"filename": filename})
+        r = requests.get(get_url("photo_transcription_status"), params={"filename": filename})
         if r.json()["status_ready"]:
             print("Transcription is ready.")
             audio = AudioSegment.from_mp3('status_ready.mp3')
@@ -142,10 +150,9 @@ while True:
             play(audio)
         break
     if inp == 'photo_transcription':
-        url = "http://3046.jumpingcrab.com:5000/photo_transcription"
         filename = search_for_tmp_files(PHOTOS_TMP_FOLDER, PHOTOS_FOLDER, PHOTOS_TRANSCRIPTION_FOLDER)
         print(f'filename: {filename}')
-        r = requests.get(url, params={"filename": filename})
+        r = requests.get(get_url("photo_transcription"), params={"filename": filename})
         if r.status_code == 200:
             # The request was successful
             wav_file = os.path.join(PHOTOS_TRANSCRIPTION_FOLDER, filename.replace(".jpg", ".wav"))
@@ -166,47 +173,46 @@ while True:
             print("The request failed with status code {}".format(r.status_code))
         break
     if inp == 'transcribe_photo':
-        url = "http://3046.jumpingcrab.com:5000/transcribe_photo"
         filename = search_for_tmp_files(PHOTOS_TMP_FOLDER, PHOTOS_FOLDER, PHOTOS_TRANSCRIPTION_FOLDER)
         photo_file = os.path.join(PHOTOS_FOLDER, filename)
         if filename is None:
             print("All photos are transcribed successfully.")
         elif os.path.isfile(photo_file):
             upload_file = open(photo_file, "rb")
-            r = requests.post(url, files = {"photo file": upload_file})
+            r = requests.post(get_url("transcribe_photo"), files = {"photo file": upload_file})
             print(r.text)
         break
     if all([x in inp for x in ['photo', 'restaurant']]):
-        saveVideo("larry_01.mp4", tempFile)
-        ffmpegVideo(tempFile)
+        saveVideo("larry_01.mp4", TEMP_FILE)
+        ffmpegVideo(TEMP_FILE)
         break
     if all([x in inp for x in ['photo', 'young']]):
-        saveVideo("larry_02.mp4", tempFile)
-        ffmpegVideo(tempFile)
+        saveVideo("larry_02.mp4", TEMP_FILE)
+        ffmpegVideo(TEMP_FILE)
         break
     if all([x in inp for x in ['photo', 'customers']]):
-        saveVideo("larry_03.mp4", tempFile)
-        ffmpegVideo(tempFile)
+        saveVideo("larry_03.mp4", TEMP_FILE)
+        ffmpegVideo(TEMP_FILE)
         break
     if all([x in inp for x in ['photo', 'growing', 'up']]):
-        saveVideo("larry_04.mp4", tempFile)
-        ffmpegVideo(tempFile)
+        saveVideo("larry_04.mp4", TEMP_FILE)
+        ffmpegVideo(TEMP_FILE)
         break
     if all([x in inp for x in ['photo', 'city', 'lights']]):
-        saveVideo("larry_05.mp4", tempFile)
-        ffmpegVideo(tempFile)
+        saveVideo("larry_05.mp4", TEMP_FILE)
+        ffmpegVideo(TEMP_FILE)
         break
     if all([x in inp for x in ['photo', 'duck']]):
-        saveVideo("larry_06.mp4", tempFile)
-        ffmpegVideo(tempFile)
+        saveVideo("larry_06.mp4", TEMP_FILE)
+        ffmpegVideo(TEMP_FILE)
         break
     if all([x in inp for x in ['photo', 'larry']]):
-        saveVideo("larry_07.mp4", tempFile)
-        ffmpegVideo(tempFile)
+        saveVideo("larry_07.mp4", TEMP_FILE)
+        ffmpegVideo(TEMP_FILE)
         break
     if all([x in inp for x in ['talk', 'larry']]):
-        saveVideo("larry_intro.mp4", tempFile)
-        ffmpegVideo(tempFile)
+        saveVideo("larry_intro.mp4", TEMP_FILE)
+        ffmpegVideo(TEMP_FILE)
         break
     if all([x in inp for x in ['test', 'halloween']]):
         ffmpegVideo("test_halloween.mp4")
