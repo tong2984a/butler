@@ -1,7 +1,7 @@
 #!/bin/bash
 mkdir ~/.cache/vosk
 cd ~/.cache/vosk
-curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/vosk-model-small-en-us-0.15.zip
+curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/vosk-model-small-en-us-0.15.zip
 unzip vosk-model-small-en-us-0.15.zip
 mkdir ~/work
 cd ~/work
@@ -20,7 +20,7 @@ pip3 install opencv-python
 pip3 install ffpyplayer
 pip3 install ffmpeg-python
 pip3 install pydub
-curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/test_halloween.mp4
+curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/test_halloween.mp4
 curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/transcribing.mp3
 curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/finish_transcription.mp3
 curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/all_photos_are_transcribed.mp3
@@ -31,6 +31,6 @@ curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/ma
 curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/butler_client.py
 curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/butler_vosk.py
 cd ~/Desktop
-curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/demo.sh
+curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/demo.sh
 chmod +x demo.sh
 
