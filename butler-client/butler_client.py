@@ -20,7 +20,7 @@ BASE_DOMAIN = "http://3046.jumpingcrab.com:5000"
 # Define the specific endpoints.
 ENDPOINTS = {
     "video": "/video",
-    "ask_llm": "ask_llm",
+    "ask_llm": "/ask_llm",
     "transcribe_photo": "/transcribe_photo",
     "photo_transcription": "/photo_transcription",
     "photo_transcription_status": "/photo_transcription_status"
