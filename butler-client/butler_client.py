@@ -116,21 +116,16 @@ def search_for_tmp_files(tmp_folder, photos_folder, transcription_folder):
   # If all files are processed, return None.
   return None
 
-#inp = "photo_transcription_status"
-#inp = "transcribe_photo"
-inp = "photo_transcription"
-# inp = "restaurant photo"
-#inp = "ask brian"
 while True:
-    # inp = butler_vosk.listen()
+    inp = butler_vosk.listen()
     inp = inp.lower()
-    # print(inp)
+    print(inp)
     if all([x in inp for x in ['hey', 'brian']]):
         ask_llm(inp)
         break
-    if inp == 'quit.':
+    if all([x in inp for x in ['quit']]):
         break
-    if inp == 'photo_transcription_status':
+    if all([x in inp for x in ['photo', 'transcription', 'status']]):
         filename = search_for_tmp_files(PHOTOS_TMP_FOLDER, PHOTOS_FOLDER, PHOTOS_TRANSCRIPTION_FOLDER)
         print(f'filename: {filename}')
         r = requests.get(get_url("photo_transcription_status"), params={"filename": filename})
@@ -151,7 +146,7 @@ while True:
             audio = AudioSegment.from_mp3('status_error_missing_photo.mp3')
             play(audio)
         break
-    if inp == 'photo_transcription':
+    if all([x in inp for x in ['next', 'photo', 'transcription']]):
         filename = search_for_tmp_files(PHOTOS_TMP_FOLDER, PHOTOS_FOLDER, PHOTOS_TRANSCRIPTION_FOLDER)
         print(f'filename: {filename}')
         r = requests.get(get_url("photo_transcription"), params={"filename": filename})
@@ -175,7 +170,7 @@ while True:
             # The request failed
             print("The request failed with status code {}".format(r.status_code))
         break
-    if inp == 'transcribe_photo':
+    if all([x in inp for x in ['next', 'transcribe', 'photo']]):
         filename = search_for_tmp_files(PHOTOS_TMP_FOLDER, PHOTOS_FOLDER, PHOTOS_TRANSCRIPTION_FOLDER)
         photo_file = os.path.join(PHOTOS_FOLDER, filename)
         if filename is None:
