@@ -108,7 +108,7 @@ def transcribe_photo():
     tmp_file = os.path.join(PHOTOS_TMP_FOLDER, filename.replace(".jpg", ".tmp"))
     with open(tmp_file, 'w') as f:
         f.write("")
-    p = subprocess.run(["/home/aleung/llama.cpp/llava", "-m", "/home/aleung/llama.cpp/models/llava/ggml-model-q4_k.gguf", "--mmproj", "/home/aleung/llama.cpp/models/llava/mmproj-model-f16.gguf", "--image", photo_file, "--temp", "0.1", "-p", "tell me the primary color in this photo"], capture_output=True, text=True)
+    p = subprocess.run(["/home/aleung/llama.cpp/llava", "-m", "/home/aleung/llama.cpp/models/llava/ggml-model-q4_k.gguf", "--mmproj", "/home/aleung/llama.cpp/models/llava/mmproj-model-f16.gguf", "--image", photo_file, "--temp", "0.1", "-p", "Tell me the primary color in this photo. Can you identify the people?"], capture_output=True, text=True)
     print(p.stdout)
     print(p.stderr)
     txt_file = os.path.join(PHOTOS_TRANSCRIPTION_FOLDER, filename.replace(".jpg", ".txt"))
