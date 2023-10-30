@@ -160,7 +160,9 @@ while True:
         r = requests.get(get_url("photo_transcription"), params={"filename": filename})
         if r.status_code == 200:
             # The request was successful
-            print("Please wait. System processing.")
+            print("Please wait. Transcription processing.")
+            audio = AudioSegment.from_mp3('processing_transcription.mp3')
+            play(audio)
             wav_file = os.path.join(PHOTOS_TRANSCRIPTION_FOLDER, filename.replace(".jpg", ".wav"))
             with open(wav_file, 'wb') as f:
                 f.write(r.content)
@@ -178,6 +180,8 @@ while True:
             # The request failed
             print("The request failed with status code {}".format(r.status_code))
             print("Try to transcribe next photo")
+            audio = AudioSegment.from_mp3('try_transcribe_again.mp3')
+            play(audio)
         break
     if all([x in inp for x in ['next', 'transcribe', 'photo']]):
         filename = search_for_tmp_files(PHOTOS_TMP_FOLDER, PHOTOS_FOLDER, PHOTOS_TRANSCRIPTION_FOLDER)
