@@ -96,6 +96,13 @@ def ask_llm(prompt):
     control = wave.play()
     control.wait_done()
 
+def search_for_transcription_files(transcription_folder):
+  # Search for .mp4 files in the 'transcription' folder.
+  for file in os.listdir(transcription_folder):
+    if file.endswith(".mp4"):
+      return file
+  return None
+
 def search_for_tmp_files(tmp_folder, photos_folder, transcription_folder):
   # Search for .tmp files in the 'pending' folder.
   for file in os.listdir(tmp_folder):
@@ -136,6 +143,11 @@ while True:
         break
     if all([x in inp for x in ['photo', 'transcription', 'status']]):
         filename = search_for_tmp_files(PHOTOS_TMP_FOLDER, PHOTOS_FOLDER, PHOTOS_TRANSCRIPTION_FOLDER)
+        if filename is None:
+            print("All photos are transcribed successfully.")
+            audio = AudioSegment.from_mp3('all_photos_are_transcribed.mp3')
+            play(audio)
+            break
         r = requests.get(get_url("photo_transcription_status"), params={"filename": filename})
         if r.json()["status_ready"]:
             print("Transcription is ready.")
@@ -156,6 +168,19 @@ while True:
         break
     if all([x in inp for x in ['next', 'photo', 'transcription']]):
         filename = search_for_tmp_files(PHOTOS_TMP_FOLDER, PHOTOS_FOLDER, PHOTOS_TRANSCRIPTION_FOLDER)
+        if filename is None:
+            print("All photos are transcribed successfully.")
+            mp4_filename = search_for_transcription_files(PHOTOS_TRANSCRIPTION_FOLDER)
+            if mp4_filename is not None:
+                audio = AudioSegment.from_mp3('play_default_transcription.mp3')
+                play(audio)
+                video_file = os.path.join(PHOTOS_TRANSCRIPTION_FOLDER, mp4_filename)
+                ffmpegVideo(video_file)
+            else:
+                audio = AudioSegment.from_mp3('try_transcribe_again.mp3')
+                play(audio)
+                print("No transcription to play.")
+            break
         photo_file = os.path.join(PHOTOS_FOLDER, filename)
         r = requests.get(get_url("photo_transcription"), params={"filename": filename})
         if r.status_code == 200:
@@ -185,12 +210,12 @@ while True:
         break
     if all([x in inp for x in ['next', 'transcribe', 'photo']]):
         filename = search_for_tmp_files(PHOTOS_TMP_FOLDER, PHOTOS_FOLDER, PHOTOS_TRANSCRIPTION_FOLDER)
-        photo_file = os.path.join(PHOTOS_FOLDER, filename)
         if filename is None:
             print("All photos are transcribed successfully.")
             audio = AudioSegment.from_mp3('all_photos_are_transcribed.mp3')
             play(audio)
         elif os.path.isfile(photo_file):
+            photo_file = os.path.join(PHOTOS_FOLDER, filename)
             audio = AudioSegment.from_mp3('transcribing.mp3')
             play(audio)
             upload_file = open(photo_file, "rb")

@@ -21,6 +21,7 @@ curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/ma
 curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/try_transcribe_again.mp3
 curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/transcribing.mp3
 curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/finish_transcription.mp3
+curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/play_default_transcription.mp3
 curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/all_photos_are_transcribed.mp3
 curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/status_error_missing_photo.mp3
 curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/status_error_unknown.mp3
