@@ -14,6 +14,7 @@ import pathlib
 import subprocess
 import ffmpeg
 from ffpyplayer.player import MediaPlayer
+from werkzeug.utils import secure_filename
 
 TEMP_FILE = "output.mp4"
 BASE_DOMAIN = "http://3046.jumpingcrab.com:5000"
@@ -98,20 +99,28 @@ def ask_llm(prompt):
 def search_for_tmp_files(tmp_folder, photos_folder, transcription_folder):
   # Search for .tmp files in the 'pending' folder.
   for file in os.listdir(tmp_folder):
-    if file.endswith(".tmp"):
-      return file.replace(".tmp", ".jpg")
+    secured_file = secure_filename(file)
+    if secured_file != file:
+        os.rename(file, secured_file)
+    if secured_file.endswith(".tmp"):
+      return secured_file.replace(".tmp", ".jpg")
 
   # If no .tmp files are found in the 'pending' folder, search for .jpg files in the 'photos' folder.
   for file in os.listdir(photos_folder):
     if file.endswith(".jpg"):
+      secured_file = secure_filename(file)
+      if secured_file != file:
+          photo_file = os.path.join(photos_folder, file)
+          rename_to = os.path.join(photos_folder, secured_file)
+          os.rename(photo_file, rename_to)
       # Look for a corresponding .txt file in the 'description' folder.
-      mp4_file = os.path.join(transcription_folder, file.replace(".jpg", ".mp4"))
+      mp4_file = os.path.join(transcription_folder, secured_file.replace(".jpg", ".mp4"))
       if not os.path.exists(mp4_file):
         # Create a corresponding .tmp file in the 'pending' folder.
-        tmp_file = os.path.join(tmp_folder, file.replace(".jpg", ".tmp"))
+        tmp_file = os.path.join(tmp_folder, secured_file.replace(".jpg", ".tmp"))
         with open(tmp_file, "w") as f:
           f.write("")
-        return file
+        return secured_file
 
   # If all files are processed, return None.
   return None
@@ -127,7 +136,6 @@ while True:
         break
     if all([x in inp for x in ['photo', 'transcription', 'status']]):
         filename = search_for_tmp_files(PHOTOS_TMP_FOLDER, PHOTOS_FOLDER, PHOTOS_TRANSCRIPTION_FOLDER)
-        print(f'filename: {filename}')
         r = requests.get(get_url("photo_transcription_status"), params={"filename": filename})
         if r.json()["status_ready"]:
             print("Transcription is ready.")
@@ -148,10 +156,11 @@ while True:
         break
     if all([x in inp for x in ['next', 'photo', 'transcription']]):
         filename = search_for_tmp_files(PHOTOS_TMP_FOLDER, PHOTOS_FOLDER, PHOTOS_TRANSCRIPTION_FOLDER)
-        print(f'filename: {filename}')
+        photo_file = os.path.join(PHOTOS_FOLDER, filename)
         r = requests.get(get_url("photo_transcription"), params={"filename": filename})
         if r.status_code == 200:
             # The request was successful
+            print("Please wait. System processing.")
             wav_file = os.path.join(PHOTOS_TRANSCRIPTION_FOLDER, filename.replace(".jpg", ".wav"))
             with open(wav_file, 'wb') as f:
                 f.write(r.content)
@@ -160,7 +169,6 @@ while True:
             ffmpeg = ffmpeg.input(wav_file).output(mp3_file)
             ffmpeg.run()
 
-            photo_file = os.path.join(PHOTOS_FOLDER, filename)
             video_file = os.path.join(PHOTOS_TRANSCRIPTION_FOLDER, filename.replace(".jpg", ".mp4"))
             narrativePhoto(photo_file, mp3_file, video_file)
             tmp_file = os.path.join(PHOTOS_TMP_FOLDER, filename.replace(".jpg", ".tmp"))
@@ -169,6 +177,7 @@ while True:
         else:
             # The request failed
             print("The request failed with status code {}".format(r.status_code))
+            print("Try to transcribe next photo")
         break
     if all([x in inp for x in ['next', 'transcribe', 'photo']]):
         filename = search_for_tmp_files(PHOTOS_TMP_FOLDER, PHOTOS_FOLDER, PHOTOS_TRANSCRIPTION_FOLDER)
