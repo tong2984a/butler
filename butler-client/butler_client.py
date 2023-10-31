@@ -26,9 +26,41 @@ ENDPOINTS = {
     "photo_transcription": "/photo_transcription",
     "photo_transcription_status": "/photo_transcription_status"
 }
-PHOTOS_FOLDER = pathlib.Path("/media/butler/BLANK/media/photos")
-PHOTOS_TMP_FOLDER = PHOTOS_FOLDER.joinpath("tmp").resolve()
-PHOTOS_TRANSCRIPTION_FOLDER = PHOTOS_FOLDER.joinpath("transcription").resolve()
+# Define the paths
+parent_folder = '/media/butler/BLANK/media'
+child_folder = 'photos'
+
+# Check if the parent folder exists
+if not os.path.exists(parent_folder):
+    os.makedirs(parent_folder)
+
+# Check if the child folder exists
+if not os.path.exists(os.path.join(parent_folder, child_folder)):
+    os.makedirs(os.path.join(parent_folder, child_folder))
+
+PHOTOS_FOLDER = pathlib.Path(parent_folder) / child_folder
+
+grandchild_folder = 'tmp'
+# Check if the grandchild folder exists
+if not os.path.exists(os.path.join(parent_folder, child_folder, grandchild_folder)):
+    os.makedirs(os.path.join(parent_folder, child_folder, grandchild_folder))
+
+PHOTOS_TMP_FOLDER = PHOTOS_FOLDER.joinpath(grandchild_folder).resolve()
+
+grandchild_folder = 'transcription'
+# Check if the grandchild folder exists
+if not os.path.exists(os.path.join(parent_folder, child_folder, grandchild_folder)):
+    os.makedirs(os.path.join(parent_folder, child_folder, grandchild_folder))
+
+PHOTOS_TRANSCRIPTION_FOLDER = PHOTOS_FOLDER.joinpath(grandchild_folder).resolve()
+
+# Search for .jpg files in the 'photos' folder.
+for file in os.listdir(PHOTOS_FOLDER):
+    secured_file = secure_filename(file)
+    if secured_file != file:
+        photo_file = os.path.join(PHOTOS_FOLDER, file)
+        rename_to = os.path.join(PHOTOS_FOLDER, secured_file)
+        os.rename(photo_file, rename_to)
 
 # Concatenate the base domain and the specific endpoints.
 def get_url(endpoint):
@@ -107,8 +139,6 @@ def search_for_tmp_files(tmp_folder, photos_folder, transcription_folder):
   # Search for .tmp files in the 'pending' folder.
   for file in os.listdir(tmp_folder):
     secured_file = secure_filename(file)
-    if secured_file != file:
-        os.rename(file, secured_file)
     if secured_file.endswith(".tmp"):
       return secured_file.replace(".tmp", ".jpg")
 
@@ -116,10 +146,6 @@ def search_for_tmp_files(tmp_folder, photos_folder, transcription_folder):
   for file in os.listdir(photos_folder):
     if file.endswith(".jpg"):
       secured_file = secure_filename(file)
-      if secured_file != file:
-          photo_file = os.path.join(photos_folder, file)
-          rename_to = os.path.join(photos_folder, secured_file)
-          os.rename(photo_file, rename_to)
       # Look for a corresponding .txt file in the 'description' folder.
       mp4_file = os.path.join(transcription_folder, secured_file.replace(".jpg", ".mp4"))
       if not os.path.exists(mp4_file):
@@ -214,8 +240,9 @@ while True:
             print("All photos are transcribed successfully.")
             audio = AudioSegment.from_mp3('all_photos_are_transcribed.mp3')
             play(audio)
-        elif os.path.isfile(photo_file):
-            photo_file = os.path.join(PHOTOS_FOLDER, filename)
+            break
+        photo_file = os.path.join(PHOTOS_FOLDER, filename)
+        if os.path.isfile(photo_file):
             audio = AudioSegment.from_mp3('transcribing.mp3')
             play(audio)
             upload_file = open(photo_file, "rb")
