@@ -1,4 +1,5 @@
 #!/bin/bash
+mkdir ~/work
 cd ~/work
 sudo apt -y update
 sudo apt -y install libasound2-dev
@@ -17,13 +18,12 @@ pip3 install ffmpeg-python
 pip3 install pydub
 pip3 install werkzeug
 pip3 install pyaudio
-curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/end_playback.mp3
-curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/end_recording.mp3
-curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/record_first.mp3
-curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/start_playback.mp3
-curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/butler_client.py
+curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-album/end_playback.mp3
+curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-album/record_first.mp3
+curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-album/record_next.mp3
+curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-album/start_playback.mp3
 curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/butler_album.py
 cd ~/Desktop
-curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/demo.sh
+curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-album/demo.sh
 chmod +x demo.sh
 

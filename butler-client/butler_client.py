@@ -293,6 +293,8 @@ while True:
             # Play the sound bite MP3 audio file
             butler_album.play_sound("record_first.mp3")
             butler_album.narrate(photo_file, mp3_file)
+            # Play the sound bite MP3 audio file
+            butler_album.play_sound("end_recording.mp3")
     if all([x in inp for x in ['play', 'my', 'photo', 'album']]):
             # Play a sound bite MP3 audio file to inform the user before the pl>
             butler_album.play_sound('start_playback.mp3')

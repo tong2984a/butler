@@ -21,7 +21,12 @@ pip3 install ffpyplayer
 pip3 install ffmpeg-python
 pip3 install pydub
 pip3 install werkzeug
+pip3 install pyaudio
 curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/test_halloween.mp4
+curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/end_playback.mp3
+curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/record_first.mp3
+curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/end_recording.mp3
+curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/start_playback.mp3
 curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/processing_transcription.mp3
 curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/try_transcribe_again.mp3
 curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/transcribing.mp3
@@ -34,6 +39,7 @@ curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/ma
 curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/status_ready.mp3
 curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/butler_client.py
 curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/butler_vosk.py
+curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/butler_album.py
 cd ~/Desktop
 curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/demo.sh
 chmod +x demo.sh
