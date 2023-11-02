@@ -94,6 +94,10 @@ def narrate(photo_file, mp3_file):
     # Play the sound bite MP3 audio file
     show_image(photo_file)
 
+    # Create the child folder if it does not exist
+    if not os.path.exists(os.path.dirname(mp3_file)):
+        os.makedirs(os.path.dirname(mp3_file))
+
     # Record audio and create the mp3 file
     with tempfile.NamedTemporaryFile(suffix='.wav') as wav_file:
         # Play the image file and the mp3 file
