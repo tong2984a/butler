@@ -287,7 +287,7 @@ while True:
     if all([x in inp for x in ['test', 'halloween']]):
         ffmpegVideo("test_halloween.mp4")
         break
-    if all([x in inp for x in ['tell', 'photo', 'story']]):
+    if all([x in inp for x in ['tell', 'story']]):
         photo_file, mp3_file = butler_album.next_photo_for_narration()
         if mp3_file is not None:
             # Play the sound bite MP3 audio file
@@ -295,7 +295,7 @@ while True:
             butler_album.narrate(photo_file, mp3_file)
             # Play the sound bite MP3 audio file
             butler_album.play_sound("end_recording.mp3")
-    if all([x in inp for x in ['play', 'my', 'photo', 'album']]):
+    if all([x in inp for x in ['present', 'album']]):
             # Play a sound bite MP3 audio file to inform the user before the pl>
             butler_album.play_sound('start_playback.mp3')
 
