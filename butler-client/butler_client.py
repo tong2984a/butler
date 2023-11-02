@@ -15,6 +15,7 @@ import subprocess
 import ffmpeg
 from ffpyplayer.player import MediaPlayer
 from werkzeug.utils import secure_filename
+import butler_album
 
 TEMP_FILE = "output.mp4"
 BASE_DOMAIN = "http://3046.jumpingcrab.com:5000"
@@ -286,3 +287,17 @@ while True:
     if all([x in inp for x in ['test', 'halloween']]):
         ffmpegVideo("test_halloween.mp4")
         break
+    if all([x in inp for x in ['tell', 'photo', 'story']]):
+        photo_file, mp3_file = butler_album.next_photo_for_narration()
+        if mp3_file is not None:
+            # Play the sound bite MP3 audio file
+            butler_album.play_sound("record_first.mp3")
+            butler_album.narrate(photo_file, mp3_file)
+    if all([x in inp for x in ['play', 'my', 'photo', 'album']]):
+            # Play a sound bite MP3 audio file to inform the user before the pl>
+            butler_album.play_sound('start_playback.mp3')
+
+            butler_album.play_all_photos_and_narratives()
+
+            # Play a sound bite MP3 audio file to inform the user when all play>
+            butler_album.play_sound('end_playback.mp3')
