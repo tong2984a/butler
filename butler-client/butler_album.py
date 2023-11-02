@@ -78,6 +78,7 @@ def play_all_photos_and_narratives():
                 # Play the image file and the mp3 file
                 show_image(jpg_file)
                 play_sound(os.path.join(root, file))
+                cv2.destroyWindow(jpg_file)
 
 def next_photo_for_narration():
     # Search for jpg files in the 'photos' folder
