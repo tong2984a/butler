@@ -8,6 +8,9 @@ import time
 import threading
 from pydub import AudioSegment
 from pydub.playback import play
+#from subprocess import call
+
+#call(["amixer", "-D", "pulse", "sset", "Master", "50%+"])
 
 # Check if the parent folder exists
 if not os.path.exists(os.path.join('/media/butler/BLANK', 'media')):
