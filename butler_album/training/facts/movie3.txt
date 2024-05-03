@@ -1,0 +1,7 @@
+{
+    "Title": "Cultures_and Culinary",
+
+"Description": "This document tells the story of Larry La, a Vietnamese-born Chinese immigrant who embraced both cultures and overcame challenges. It highlights his experiences during the Vietnam War, his immigration to the United States, and his success in opening a Chinese restaurant in Washington DC while celebrating his Vietnamese heritage.",
+
+"File": "narrate0.mp4"
+}

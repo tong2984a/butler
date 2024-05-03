@@ -1,0 +1,7 @@
+{
+    "Title": "Reflection in the Restaurant Business",
+
+"Description": "In this heartfelt reflection, Larry La, a seasoned restaurateur, expresses profound gratitude for his journey. He emphasizes the significance of meaningful connections, the joy of serving others, and the camaraderie with his staff. Despite relocating his restaurant, Larry remains optimistic, carrying cherished memories and valuable lessons, appreciating the opportunities his path has provided him.",
+
+"File": "narrate00.mp4"
+}
