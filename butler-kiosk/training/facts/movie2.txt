@@ -1,0 +1,8 @@
+{
+
+"Title": "Connections and Impact",
+
+"Description": "This document shares the journey of Larry La, highlighting his appreciation for connections and the impact of others. It mentions encounters with influential figures, involvement in politics, and the success of his restaurant. It emphasizes the importance of sharing joy and success, making meaningful connections along the way.",
+
+"File": "narrate12.mp4"
+}
