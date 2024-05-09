@@ -110,7 +110,8 @@ splash_screen()
 while True:
     inp = "default"
     filename = 'myrecording.wav'
-    is_pressed = GPIO.input(4)
+    #is_pressed = GPIO.input(4)
+    is_pressed = True
     try:
         if is_pressed:
             inp = butler_vosk.listen()
