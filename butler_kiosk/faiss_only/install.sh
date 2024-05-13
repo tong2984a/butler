@@ -3,16 +3,12 @@ mkdir ~/.cache/vosk
 cd ~/.cache/vosk
 curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/vosk-model-small-en-us-0.15.zip
 unzip vosk-model-small-en-us-0.15.zip
-mkdir ~/work
-cd ~/work
 sudo apt -y update
 sudo apt -y install libasound2-dev
 sudo apt -y install portaudio19-dev
 sudo apt -y install libunistring-dev libaom-dev libdav1d-dev
 sudo apt -y install ffmpeg libavcodec-dev libavdevice-dev libavfilter-dev libavformat-dev libavutil-dev libswscale-dev libswresample-dev libpostproc-dev libsdl2-dev libsdl2-2.0-0 libsdl2-mixer-2.0-0 libsdl2-mixer-dev python3-dev
 sudo apt -y install vlc
-python3 -m venv venv
-source ./venv/bin/activate
 pip3 install simpleaudio
 pip3 install vosk
 pip3 install sounddevice

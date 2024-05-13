@@ -5,8 +5,6 @@
 #sudo apt -y install libunistring-dev libaom-dev libdav1d-dev
 #sudo apt -y install ffmpeg libavcodec-dev libavdevice-dev libavfilter-dev libavformat-dev libavutil-dev libswscale-dev libswresample-dev libpostproc-dev libsdl2-dev libsdl2-2.0-0 libsdl2-mixer-2.0-0 libsdl2-mixer-dev python3-dev
 #sudo apt -y install vlc
-#python3 -m venv venv
-#source ./venv/bin/activate
 pip3 install simpleaudio
 pip3 install vosk
 pip3 install sounddevice
