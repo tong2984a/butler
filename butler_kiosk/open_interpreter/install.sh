@@ -1,7 +1,7 @@
 #!/bin/bash
 mkdir ~/.cache/vosk
 cd ~/.cache/vosk
-curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/m>
+curl -L --retry 20 --retry-delay 2 -O https://github.com/tong2984a/butler/raw/main/butler-client/vosk-model-small-en-us-0.15.zip
 unzip vosk-model-small-en-us-0.15.zip
 sudo apt -y update
 sudo apt -y install libasound2-dev
